@@ -38,38 +38,8 @@ body {
 	overflow-y: scroll;
 }
 
-.demo-2 {
-	--color-bg: #8d8e98;
-	--content-offset: 10vh;
-	--font-family: widescreen-mixed, sans-serif;
-	--font-size-l: 20vw;
-	--font-size-xl: 24vw;
-}
-
 .demo-3 {
-	--color-bg: #525fdc;
-	--content-offset: 10vh;
-	--color-rep-bg: transparent;
-}
-
-.demo-4 {
-	--color-bg: #1f1d1c;
-	--color-text: #d14521;
-	--color-rep-text: #d14521;
-	--content-offset: 10vh;
-	--font-family: bely-display, serif;
-	--font-weight: 400;
-	--font-factor: 0.059; 
-	--font-line: 0.745;
-	--font-case: lowercase;
-	--color-rep-bg: transparent;
-	--font-size-xl: 34vw;
-}
-
-.demo-5 {
-	--color-bg: #c5c3c7;
-	--color-text: #b61e1e;
-	--color-link: #000;
+	--color-bg: #FF6420;
 	--content-offset: 10vh;
 	--color-rep-bg: transparent;
 }
@@ -211,7 +181,10 @@ main {
 
 .content p {
 	hyphens: auto;
-	max-width: 500px;
+	border: 10px solid black;
+    padding: 20px;
+    background-color: var(--color-bg);
+    max-width: 750px;
 	font-size: 1.25rem;
 	line-height: 1.8;
 	margin: 10vh auto;
