@@ -206,8 +206,8 @@ main {
 }
 
 .images.center {
-	display: flex;
-	
+    display: flex;
+    justify-content: center;
 }
 
 .no-margin-bottom {
@@ -363,5 +363,11 @@ p.footer {
 	}
 	.frame__links--demos {
 		grid-area: demos;
+	}
+}
+
+@media screen and (max-width: 1440px) {
+	.content {
+		margin-top: 0;
 	}
 }

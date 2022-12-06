@@ -185,6 +185,7 @@ main {
 }
 
 .images.center {
+  justify-content: center;
   display: flex;
 }
 
@@ -344,6 +345,12 @@ p.footer {
 
   .frame__links--demos {
     grid-area: demos;
+  }
+}
+
+@media screen and (max-width: 1440px) {
+  .content {
+    margin-top: 0;
   }
 }
 
