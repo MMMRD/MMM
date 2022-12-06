@@ -183,6 +183,17 @@ a:focus-visible {
 	line-height: 0.8;
 }
 
+.content p {
+	hyphens: auto;
+	border: 10px solid black;
+    padding: 20px;
+    background-color: var(--color-bg);
+    max-width: 750px;
+	font-size: 1.25rem;
+	line-height: 1.8;
+	margin: 10vh auto;
+}
+
 
 @media screen and (min-width: 53em) {
 	.frame {

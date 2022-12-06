@@ -10,17 +10,18 @@
 
 body {
 	margin: 0;
-	--color-text: #fff;
-	--color-bg: #000;
-	--color-link: #fff;
-	--color-link-hover: #fff;
+	--color-text: #000;
+	--color-bg: #ff6420;
+	--color-link: #000;
+	--color-link-hover: #000;
+	--font-size-xs: 9vw;
 	--font-size-s: 13vw;
 	--font-size-m: 16vw;
 	--font-size-l: 24vw;
 	--font-size-xl: 26vw;
 	--font-family: widescreen-ex, sans-serif;
 	--font-weight: 900;
-	--content-offset: 20vh;
+	--content-offset: 5vh;
 	--font-case: uppercase;
 	--color-rep-text: var(--color-text);
 	--color-rep-text-main: var(--color-text);
@@ -40,7 +41,7 @@ body {
 
 .demo-3 {
 	--color-bg: #FF6420;
-	--content-offset: 10vh;
+	--content-offset: 5vh;
 	--color-rep-bg: transparent;
 }
 
@@ -87,7 +88,6 @@ a {
 }
 
 a:hover {
-	color: var(--color-link-hover);
 	outline: none;
 }
 
@@ -96,7 +96,6 @@ a:focus {
 	/* Provide a fallback style for browsers
 	 that don't support :focus-visible */
 	outline: none;
-	background: lightgrey;
 }
 
 a:focus:not(:focus-visible) {
@@ -111,6 +110,33 @@ a:focus-visible {
 	 :focus-visible */
 	outline: 2px solid red;
 	background: transparent;
+}
+
+a {
+	text-decoration: none;
+	font-weight: 700;
+	position: relative;
+  }
+  
+a::before {
+content: '';
+background-color: #69c3ff;
+position: absolute;
+left: 0;
+bottom: 3px;
+width: 100%;
+height: 8px;
+z-index: -1;
+transition: all .3s ease-in-out;
+}
+
+a:hover::before {
+bottom: 0;
+height: 100%;
+}
+
+a.highlight {
+	cursor: text;
 }
 
 .unbutton {
@@ -179,21 +205,76 @@ main {
 	align-items: center;
 }
 
-.content p {
-	hyphens: auto;
-	border: 10px solid black;
-    padding: 20px;
-    background-color: var(--color-bg);
+.images.center {
+	display: flex;
+	
+}
+
+.no-margin-bottom {
+	margin-bottom: 0 !important;
+}
+
+.no-margin-top {
+	margin-top: 0 !important;
+}
+
+.rainbow{
+	transition: padding .2s; /* Animation */
+}
+
+.rainbow:hover {
+	background-image: linear-gradient(90deg, #00C0FF 0%, #FFCF00 49%, #FC4F4F 80%, #00C0FF 100%);
+	animation: slidebg 5s linear infinite;
+	padding: 10px;
+    border: 3px solid #000;
+}
+
+@keyframes slidebg {
+	to {
+	  background-position:20vw;
+	}
+  }
+
+  @keyframes colorRotate {
+	from {
+	  color: #6666ff;
+	}
+	10% {
+	  color: #0099ff;
+	}
+	50% {
+	  color: #00ff00;
+	}
+	75% {
+	  color: #ff3399;
+	}
+	100% {
+	  color: #6666ff;
+	}
+  }
+
+.content p, ul {
+	color: var(--color-text);
+	font-weight: bold;
+	padding: 20px;
     max-width: 750px;
 	font-size: 1.25rem;
 	line-height: 1.8;
 	margin: 10vh auto;
 }
 
+ul.inner {
+	margin: 2vh auto;
+}
+
 p.footer {
 	padding-top: 25vh;
 	font-size: 1rem;
 	opacity: 0.5;
+}
+
+.content__title--size-xs {
+	--size: var(--font-size-xs);
 }
 
 .content__title--size-s {

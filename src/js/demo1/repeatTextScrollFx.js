@@ -37,6 +37,7 @@ export class RepeatTextScrollFx {
     layout() {
         const halfWordsCount = Math.floor(this.totalWords/2);
         let innerHTML = '';
+		let colors = ['#fff', '#ff6420', '#1dc663', '#68c4ff', '#ffdd02']
 	    
         for (let i = 0; i < this.totalWords; ++i) {
             
@@ -57,7 +58,7 @@ export class RepeatTextScrollFx {
 				delay = this.delayIncrement*(halfWordsCount- (i-halfWordsCount) )-this.delayIncrement
 			}
 			
-			innerHTML += `<span data-delay="${delay}" data-ty="${ty}">${this.DOM.el.innerHTML}</span>`;
+			innerHTML += `<span data-delay="${delay}" style="color: ${colors[i]}" data-ty="${ty}">${this.DOM.el.innerHTML}</span>`;
 		}
 		
 		this.DOM.el.innerHTML = innerHTML;
