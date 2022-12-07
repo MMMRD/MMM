@@ -185,8 +185,14 @@ main {
 }
 
 .images.center {
-  justify-content: center;
+  justify-content: space-around;
   display: flex;
+}
+
+.images.sponsors img {
+  width: auto;
+  max-height: 160px;
+  margin: 0 40px;
 }
 
 .no-margin-bottom {
@@ -552,9 +558,9 @@ p.footer {
 }
 
 .footer {
+  text-align: center;
   width: 100%;
   background-color: var(--color-bg-sec);
-  height: 150px;
   border-top: 4px solid #000;
   margin-top: 50px;
 }

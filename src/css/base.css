@@ -208,7 +208,14 @@ main {
 
 .images.center {
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
+
+}
+
+.images.sponsors img {
+    width: auto;
+    margin: 0 40px;
+    max-height: 160px;
 }
 
 .no-margin-bottom {
@@ -533,11 +540,11 @@ p.footer {
   }
 
   .footer{
+	text-align: center;
 	margin-top: 50px;
 	width: 100%;
 	background-color: var(--color-bg-sec);
-    height: 150px;
-	border-top: 4px solid #000;
+    border-top: 4px solid #000;
   }
 
   .footer img {
