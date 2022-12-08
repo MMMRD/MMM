@@ -137,6 +137,10 @@ main {
   padding: 1.5rem 2rem 0;
 }
 
+.absolute {
+  position: absolute;
+}
+
 .frame {
   text-align: center;
 }
@@ -567,6 +571,21 @@ p.footer {
 
 .footer img {
   width: 100%;
+}
+
+.rotating {
+  -ms-animation: rotating 15s linear infinite;
+  animation: 15s linear infinite rotating;
+}
+
+@keyframes rotating {
+  from {
+    transform: rotate(0);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /*# sourceMappingURL=index.d046a61c.css.map */
