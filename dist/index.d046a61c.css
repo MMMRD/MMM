@@ -6,6 +6,10 @@
   font-size: 15px;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   --color-text: #000;
   --color-bg: #ff6420;
