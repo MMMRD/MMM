@@ -140,6 +140,12 @@ a.highlight {
 	cursor: text;
 }
 
+.icons{
+	width: 25px;
+    height: auto;
+	margin-right: 15px;
+}
+
 .unbutton {
 	background: none;
 	border: 0;
@@ -203,6 +209,51 @@ main {
 	transform-origin: 100% 50%;
 }
 
+.donaciones-container{
+	border: 4px solid #000;
+}
+
+.donaciones-bank{
+	padding: 40px;
+    border-right: 4px solid #000;
+	background: #1fc564;
+}
+
+.donaciones-container{
+	margin-top: 10vh;
+	display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.donaciones-buttons{
+	min-height: 243px;
+    min-width: 180px;
+    flex-direction: column;
+    display: flex;
+}
+
+.donaciones-buttons .rainbow{
+	margin: 0 10px;
+	flex: 1;
+	border: 0 !important;
+	margin: 0;
+	justify-content: center;
+    display: flex;
+    align-items: center;
+}
+
+.donaciones-buttons .rainbow.paypal{
+	background: #ffdd02;
+}
+.donaciones-buttons .rainbow.patreon{
+	background: #f56954;
+}
+
+.donaciones-buttons .rainbow:first-child{
+	border-bottom: 4px solid #000 !important;
+}
+
 .content {
 	margin: var(--content-offset) 0 0 0;
 	display: flex;
@@ -246,6 +297,10 @@ main {
 	animation: slidebg 5s linear infinite;
 	padding: 10px;
     border: 3px solid #000;
+}
+
+.rainbow.on.empty {
+	background-image: none;
 }
 
 @keyframes slidebg {
