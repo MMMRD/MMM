@@ -268,7 +268,7 @@ main {
 .images.center {
     display: flex;
     justify-content: space-around;
-
+    flex-wrap: wrap;
 }
 
 .images.sponsors img {
