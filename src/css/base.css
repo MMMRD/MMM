@@ -247,6 +247,10 @@ main {
     align-items: center;
 }
 
+.donaciones-buttons .rainbow div{
+	display: flex;
+}
+
 .donaciones-buttons .rainbow.paypal{
 	background: #ffdd02;
 }
@@ -447,6 +451,31 @@ p.footer {
 @media screen and (max-width: 1440px) {
 	.content {
 		margin-top: 0;
+	}
+}
+
+@media screen and (max-width: 640px) {
+	.donaciones-bank {
+		border: 0;
+		border-bottom: 4px solid #000;
+	}
+
+	.donaciones-bank ul {
+		font-size: 1.2rem;
+	}
+
+	.donaciones-container {
+		flex-direction: column;
+	}
+
+	.donaciones-buttons {
+		width: 100%;
+		min-height: 215px;
+	}
+
+	.images.sponsors img {
+		max-height: 120px;
+		margin-bottom: 20px;
 	}
 }
 
