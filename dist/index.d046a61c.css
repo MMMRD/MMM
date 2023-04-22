@@ -392,7 +392,7 @@ p.footer {
   padding-bottom: 0;
 }
 
-@media screen and (min-width: 53em) {
+@media screen and (width >= 53em) {
   .frame {
     grid-column-gap: 3vw;
     grid-row-gap: 1rem;
@@ -418,13 +418,13 @@ p.footer {
   }
 }
 
-@media screen and (max-width: 1440px) {
+@media screen and (width <= 1440px) {
   .content {
     margin-top: 0;
   }
 }
 
-@media screen and (max-width: 640px) {
+@media screen and (width <= 640px) {
   .donaciones-bank {
     border: 0;
     border-bottom: 4px solid #000;
