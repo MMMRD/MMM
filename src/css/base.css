@@ -345,6 +345,10 @@ ul.inner {
 	margin: 0;
 }
 
+.cancelled{
+	text-decoration: line-through
+}
+
 p.footer {
 	padding-top: 25vh;
 	font-size: 1rem;

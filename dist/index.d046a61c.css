@@ -320,6 +320,10 @@ ul.inner {
   margin: 0;
 }
 
+.cancelled {
+  text-decoration: line-through;
+}
+
 p.footer {
   opacity: .5;
   padding-top: 25vh;
