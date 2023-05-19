@@ -279,6 +279,22 @@ main {
   background-image: none;
 }
 
+#image-carousel, #image-carousel-2 {
+  margin: 50px 0;
+}
+
+.splide__slide {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+.splide__slide img {
+  width: auto;
+  height: 100%;
+  max-height: 550px;
+}
+
 @keyframes slidebg {
   to {
     background-position: 20vw;
