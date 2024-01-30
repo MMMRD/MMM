@@ -142,7 +142,7 @@
       this[globalName] = mainExports;
     }
   }
-})({"g0Bb1":[function(require,module,exports) {
+})({"34WWp":[function(require,module,exports) {
 var global = arguments[3];
 var HMR_HOST = null;
 var HMR_PORT = null;
@@ -150,7 +150,7 @@ var HMR_SECURE = false;
 var HMR_ENV_HASH = "d6ea1d42532a7575";
 module.bundle.HMR_BUNDLE_ID = "baf295b38d9388f3";
 "use strict";
-/* global HMR_HOST, HMR_PORT, HMR_ENV_HASH, HMR_SECURE, chrome, browser, globalThis, __parcel__import__, __parcel__importScripts__, ServiceWorkerGlobalScope */ /*::
+/* global HMR_HOST, HMR_PORT, HMR_ENV_HASH, HMR_SECURE, chrome, browser, __parcel__import__, __parcel__importScripts__, ServiceWorkerGlobalScope */ /*::
 import type {
   HMRAsset,
   HMRMessage,
@@ -214,43 +214,60 @@ function Module(moduleName) {
 }
 module.bundle.Module = Module;
 module.bundle.hotData = {};
-var checkedAssets, assetsToDispose, assetsToAccept /*: Array<[ParcelRequire, string]> */ ;
+var checkedAssets /*: {|[string]: boolean|} */ , assetsToDispose /*: Array<[ParcelRequire, string]> */ , assetsToAccept /*: Array<[ParcelRequire, string]> */ ;
 function getHostname() {
     return HMR_HOST || (location.protocol.indexOf("http") === 0 ? location.hostname : "localhost");
 }
 function getPort() {
     return HMR_PORT || location.port;
-} // eslint-disable-next-line no-redeclare
+}
+// eslint-disable-next-line no-redeclare
 var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== "undefined") {
     var hostname = getHostname();
     var port = getPort();
-    var protocol = HMR_SECURE || location.protocol == "https:" && !/localhost|127.0.0.1|0.0.0.0/.test(hostname) ? "wss" : "ws";
-    var ws = new WebSocket(protocol + "://" + hostname + (port ? ":" + port : "") + "/"); // Web extension context
-    var extCtx = typeof chrome === "undefined" ? typeof browser === "undefined" ? null : browser : chrome; // Safari doesn't support sourceURL in error stacks.
+    var protocol = HMR_SECURE || location.protocol == "https:" && ![
+        "localhost",
+        "127.0.0.1",
+        "0.0.0.0"
+    ].includes(hostname) ? "wss" : "ws";
+    var ws;
+    try {
+        ws = new WebSocket(protocol + "://" + hostname + (port ? ":" + port : "") + "/");
+    } catch (err) {
+        if (err.message) console.error(err.message);
+        ws = {};
+    }
+    // Web extension context
+    var extCtx = typeof browser === "undefined" ? typeof chrome === "undefined" ? null : chrome : browser;
+    // Safari doesn't support sourceURL in error stacks.
     // eval may also be disabled via CSP, so do a quick check.
     var supportsSourceURL = false;
     try {
         (0, eval)('throw new Error("test"); //# sourceURL=test.js');
     } catch (err) {
         supportsSourceURL = err.stack.includes("test.js");
-    } // $FlowFixMe
-    ws.onmessage = async function(event) {
+    }
+    // $FlowFixMe
+    ws.onmessage = async function(event /*: {data: string, ...} */ ) {
         checkedAssets = {} /*: {|[string]: boolean|} */ ;
         assetsToAccept = [];
         assetsToDispose = [];
-        var data = JSON.parse(event.data);
+        var data /*: HMRMessage */  = JSON.parse(event.data);
         if (data.type === "update") {
             // Remove error overlay if there is one
             if (typeof document !== "undefined") removeErrorOverlay();
-            let assets = data.assets.filter((asset)=>asset.envHash === HMR_ENV_HASH); // Handle HMR Update
+            let assets = data.assets.filter((asset)=>asset.envHash === HMR_ENV_HASH);
+            // Handle HMR Update
             let handled = assets.every((asset)=>{
                 return asset.type === "css" || asset.type === "js" && hmrAcceptCheck(module.bundle.root, asset.id, asset.depsByBundle);
             });
             if (handled) {
-                console.clear(); // Dispatch custom event so other runtimes (e.g React Refresh) are aware.
+                console.clear();
+                // Dispatch custom event so other runtimes (e.g React Refresh) are aware.
                 if (typeof window !== "undefined" && typeof CustomEvent !== "undefined") window.dispatchEvent(new CustomEvent("parcelhmraccept"));
-                await hmrApplyUpdates(assets); // Dispose all old assets.
+                await hmrApplyUpdates(assets);
+                // Dispose all old assets.
                 let processedAssets = {} /*: {|[string]: boolean|} */ ;
                 for(let i = 0; i < assetsToDispose.length; i++){
                     let id = assetsToDispose[i][1];
@@ -258,7 +275,8 @@ if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== "undefined") {
                         hmrDispose(assetsToDispose[i][0], id);
                         processedAssets[id] = true;
                     }
-                } // Run accept callbacks. This will also re-execute other disposed assets in topological order.
+                }
+                // Run accept callbacks. This will also re-execute other disposed assets in topological order.
                 processedAssets = {};
                 for(let i = 0; i < assetsToAccept.length; i++){
                     let id = assetsToAccept[i][1];
@@ -278,13 +296,14 @@ if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== "undefined") {
             if (typeof document !== "undefined") {
                 // Render the fancy html overlay
                 removeErrorOverlay();
-                var overlay = createErrorOverlay(data.diagnostics.html); // $FlowFixMe
+                var overlay = createErrorOverlay(data.diagnostics.html);
+                // $FlowFixMe
                 document.body.appendChild(overlay);
             }
         }
     };
     ws.onerror = function(e) {
-        console.error(e.message);
+        if (e.message) console.error(e.message);
     };
     ws.onclose = function() {
         console.warn("[parcel] \uD83D\uDEA8 Connection to the HMR server was lost");
@@ -294,7 +313,7 @@ function removeErrorOverlay() {
     var overlay = document.getElementById(OVERLAY_ID);
     if (overlay) {
         overlay.remove();
-        console.log("[parcel] ✨ Error resolved");
+        console.log("[parcel] \u2728 Error resolved");
     }
 }
 function createErrorOverlay(diagnostics) {
@@ -310,13 +329,13 @@ ${frame.code}`;
         errorHTML += `
       <div>
         <div style="font-size: 18px; font-weight: bold; margin-top: 20px;">
-          🚨 ${diagnostic.message}
+          \u{1F6A8} ${diagnostic.message}
         </div>
         <pre>${stack}</pre>
         <div>
           ${diagnostic.hints.map((hint)=>"<div>\uD83D\uDCA1 " + hint + "</div>").join("")}
         </div>
-        ${diagnostic.documentation ? `<div>📝 <a style="color: violet" href="${diagnostic.documentation}" target="_blank">Learn more</a></div>` : ""}
+        ${diagnostic.documentation ? `<div>\u{1F4DD} <a style="color: violet" href="${diagnostic.documentation}" target="_blank">Learn more</a></div>` : ""}
       </div>
     `;
     }
@@ -344,12 +363,16 @@ function getParents(bundle, id) /*: Array<[ParcelRequire, string]> */ {
     return parents;
 }
 function updateLink(link) {
+    var href = link.getAttribute("href");
+    if (!href) return;
     var newLink = link.cloneNode();
     newLink.onload = function() {
         if (link.parentNode !== null) // $FlowFixMe
         link.parentNode.removeChild(link);
     };
-    newLink.setAttribute("href", link.getAttribute("href").split("?")[0] + "?" + Date.now()); // $FlowFixMe
+    newLink.setAttribute("href", // $FlowFixMe
+    href.split("?")[0] + "?" + Date.now());
+    // $FlowFixMe
     link.parentNode.insertBefore(newLink, link.nextSibling);
 }
 var cssTimeout = null;
@@ -359,7 +382,7 @@ function reloadCSS() {
         var links = document.querySelectorAll('link[rel="stylesheet"]');
         for(var i = 0; i < links.length; i++){
             // $FlowFixMe[incompatible-type]
-            var href = links[i].getAttribute("href");
+            var href /*: string */  = links[i].getAttribute("href");
             var hostname = getHostname();
             var servedFromHMRServer = hostname === "localhost" ? new RegExp("^(https?:\\/\\/(0.0.0.0|127.0.0.1)|localhost):" + getPort()).test(href) : href.indexOf(hostname + ":" + getPort());
             var absolute = /^https?:\/\//i.test(href) && href.indexOf(location.origin) !== 0 && !servedFromHMRServer;
@@ -408,15 +431,10 @@ async function hmrApplyUpdates(assets) {
             let promises = assets.map((asset)=>{
                 var _hmrDownload;
                 return (_hmrDownload = hmrDownload(asset)) === null || _hmrDownload === void 0 ? void 0 : _hmrDownload.catch((err)=>{
-                    // Web extension bugfix for Chromium
-                    // https://bugs.chromium.org/p/chromium/issues/detail?id=1255412#c12
-                    if (extCtx && extCtx.runtime && extCtx.runtime.getManifest().manifest_version == 3) {
-                        if (typeof ServiceWorkerGlobalScope != "undefined" && global instanceof ServiceWorkerGlobalScope) {
-                            extCtx.runtime.reload();
-                            return;
-                        }
-                        asset.url = extCtx.runtime.getURL("/__parcel_hmr_proxy__?url=" + encodeURIComponent(asset.url + "?t=" + Date.now()));
-                        return hmrDownload(asset);
+                    // Web extension fix
+                    if (extCtx && extCtx.runtime && extCtx.runtime.getManifest().manifest_version == 3 && typeof ServiceWorkerGlobalScope != "undefined" && global instanceof ServiceWorkerGlobalScope) {
+                        extCtx.runtime.reload();
+                        return;
                     }
                     throw err;
                 });
@@ -436,7 +454,7 @@ async function hmrApplyUpdates(assets) {
         });
     }
 }
-function hmrApply(bundle, asset) {
+function hmrApply(bundle /*: ParcelRequire */ , asset /*:  HMRAsset */ ) {
     var modules = bundle.modules;
     if (!modules) return;
     if (asset.type === "css") reloadCSS();
@@ -456,7 +474,7 @@ function hmrApply(bundle, asset) {
             if (supportsSourceURL) // Global eval. We would use `new Function` here but browser
             // support for source maps is better with eval.
             (0, eval)(asset.output);
-             // $FlowFixMe
+            // $FlowFixMe
             let fn = global.parcelHotUpdate[asset.id];
             modules[asset.id] = [
                 fn,
@@ -475,17 +493,19 @@ function hmrDelete(bundle, id) {
         for(let dep in deps){
             let parents = getParents(module.bundle.root, deps[dep]);
             if (parents.length === 1) orphans.push(deps[dep]);
-        } // Delete the module. This must be done before deleting dependencies in case of circular dependencies.
+        }
+        // Delete the module. This must be done before deleting dependencies in case of circular dependencies.
         delete modules[id];
-        delete bundle.cache[id]; // Now delete the orphans.
+        delete bundle.cache[id];
+        // Now delete the orphans.
         orphans.forEach((id)=>{
             hmrDelete(module.bundle.root, id);
         });
     } else if (bundle.parent) hmrDelete(bundle.parent, id);
 }
-function hmrAcceptCheck(bundle, id, depsByBundle) {
+function hmrAcceptCheck(bundle /*: ParcelRequire */ , id /*: string */ , depsByBundle /*: ?{ [string]: { [string]: string } }*/ ) {
     if (hmrAcceptCheckOne(bundle, id, depsByBundle)) return true;
-     // Traverse parents breadth first. All possible ancestries must accept the HMR update, or we'll reload.
+    // Traverse parents breadth first. All possible ancestries must accept the HMR update, or we'll reload.
     let parents = getParents(module.bundle.root, id);
     let accepted = false;
     while(parents.length > 0){
@@ -506,7 +526,7 @@ function hmrAcceptCheck(bundle, id, depsByBundle) {
     }
     return accepted;
 }
-function hmrAcceptCheckOne(bundle, id, depsByBundle) {
+function hmrAcceptCheckOne(bundle /*: ParcelRequire */ , id /*: string */ , depsByBundle /*: ?{ [string]: { [string]: string } }*/ ) {
     var modules = bundle.modules;
     if (!modules) return;
     if (depsByBundle && !depsByBundle[bundle.HMR_BUNDLE_ID]) {
@@ -530,7 +550,7 @@ function hmrAcceptCheckOne(bundle, id, depsByBundle) {
         return true;
     }
 }
-function hmrDispose(bundle, id) {
+function hmrDispose(bundle /*: ParcelRequire */ , id /*: string */ ) {
     var cached = bundle.cache[id];
     bundle.hotData[id] = {};
     if (cached && cached.hot) cached.hot.data = bundle.hotData[id];
@@ -539,9 +559,10 @@ function hmrDispose(bundle, id) {
     });
     delete bundle.cache[id];
 }
-function hmrAccept(bundle, id) {
+function hmrAccept(bundle /*: ParcelRequire */ , id /*: string */ ) {
     // Execute the module.
-    bundle(id); // Run the accept callbacks in the new version of the module.
+    bundle(id);
+    // Run the accept callbacks in the new version of the module.
     var cached = bundle.cache[id];
     if (cached && cached.hot && cached.hot._acceptCallbacks.length) cached.hot._acceptCallbacks.forEach(function(cb) {
         var assetsToAlsoAccept = cb(function() {
@@ -550,7 +571,8 @@ function hmrAccept(bundle, id) {
         if (assetsToAlsoAccept && assetsToAccept.length) {
             assetsToAlsoAccept.forEach(function(a) {
                 hmrDispose(a[0], a[1]);
-            }); // $FlowFixMe[method-unbinding]
+            });
+            // $FlowFixMe[method-unbinding]
             assetsToAccept.push.apply(assetsToAccept, assetsToAlsoAccept);
         }
     });
@@ -609,7 +631,7 @@ exports.defineInteropFlag = function(a) {
 };
 exports.exportAll = function(source, dest) {
     Object.keys(source).forEach(function(key) {
-        if (key === "default" || key === "__esModule" || dest.hasOwnProperty(key)) return;
+        if (key === "default" || key === "__esModule" || Object.prototype.hasOwnProperty.call(dest, key)) return;
         Object.defineProperty(dest, key, {
             enumerable: true,
             get: function() {
@@ -867,12 +889,12 @@ function _inheritsLoose(subClass, superClass) {
     subClass.__proto__ = superClass;
 }
 /*!
- * GSAP 3.11.5
- * https://greensock.com
+ * GSAP 3.12.5
+ * https://gsap.com
  *
- * @license Copyright 2008-2023, GreenSock. All rights reserved.
- * Subject to the terms at https://greensock.com/standard-license or for
- * Club GreenSock members, the agreement issued with that membership.
+ * @license Copyright 2008-2024, GreenSock. All rights reserved.
+ * Subject to the terms at https://gsap.com/standard-license or for
+ * Club GSAP members, the agreement issued with that membership.
  * @author: Jack Doyle, jack@greensock.com
 */ /* eslint-disable */ var _config = {
     autoSleep: 120,
@@ -1035,7 +1057,7 @@ _parseRelative = function _parseRelative(start, value) {
     else if (parent[lastProp] === child) parent[lastProp] = prev;
     child._next = child._prev = child.parent = null; // don't delete the _dp just so we can revert if necessary. But parent should be null to indicate the item isn't in a linked list.
 }, _removeFromParent = function _removeFromParent(child, onlyIfParentHasAutoRemove) {
-    child.parent && (!onlyIfParentHasAutoRemove || child.parent.autoRemoveChildren) && child.parent.remove(child);
+    child.parent && (!onlyIfParentHasAutoRemove || child.parent.autoRemoveChildren) && child.parent.remove && child.parent.remove(child);
     child._act = 0;
 }, _uncache = function _uncache(animation, child) {
     if (animation && (!child || child._end > animation._dur || child._start < 0)) {
@@ -1090,8 +1112,8 @@ _totalTimeToTime = (clampedTotalTime, duration, repeat, repeatDelay, yoyo) => {
 },
 */ _postAddChecks = function _postAddChecks(timeline, child) {
     var t;
-    if (child._time || child._initted && !child._dur) {
-        //in case, for example, the _start is moved on a tween that has already rendered. Imagine it's at its end state, then the startTime is moved WAY later (after the end of this timeline), it should render at its beginning.
+    if (child._time || !child._dur && child._initted || child._start < timeline._time && (child._dur || !child.add)) {
+        // in case, for example, the _start is moved on a tween that has already rendered, or if it's being inserted into a timeline BEFORE where the playhead is currently. Imagine it's at its end state, then the startTime is moved WAY later (after the end of this timeline), it should render at its beginning. Special case: if it's a timeline (has .add() method) and no duration, we can skip rendering because the user may be populating it AFTER adding it to a parent timeline (unconventional, but possible, and we wouldn't want it to get removed if the parent's autoRemoveChildren is true).
         t = _parentToChildTotalTime(timeline.rawTime(), child);
         if (!child._dur || _clamp(0, child.totalDuration(), t) - child._tTime > _tinyNum) child.render(t, true);
     } //if the timeline has already ended but the inserted tween/timeline extends the duration, we should enable this timeline again so that it renders properly. We should also align the playhead with the parent timeline's when appropriate.
@@ -1303,7 +1325,7 @@ distribute = function distribute(v) {
             if (!wrapAt) {
                 max = -_bigNum;
                 while(max < (max = a[wrapAt++].getBoundingClientRect().left) && wrapAt < l);
-                wrapAt--;
+                wrapAt < l && wrapAt--;
             }
             distances = cache[l] = [];
             originX = ratios ? Math.min(wrapAt, l) * ratioX - .5 : from % wrapAt;
@@ -1474,42 +1496,42 @@ distribute = function distribute(v) {
     animation.progress() < 1 && _callback(animation, "onInterrupt");
     return animation;
 }, _quickTween, _registerPluginQueue = [], _createPlugin = function _createPlugin(config) {
-    if (!_windowExists()) {
-        _registerPluginQueue.push(config);
-        return;
-    }
-    config = !config.name && config["default"] || config; //UMD packaging wraps things oddly, so for example MotionPathHelper becomes {MotionPathHelper:MotionPathHelper, default:MotionPathHelper}.
-    var name = config.name, isFunc = _isFunction(config), Plugin = name && !isFunc && config.init ? function() {
-        this._props = [];
-    } : config, //in case someone passes in an object that's not a plugin, like CustomEase
-    instanceDefaults = {
-        init: _emptyFunc,
-        render: _renderPropTweens,
-        add: _addPropTween,
-        kill: _killPropTweensOf,
-        modifier: _addPluginModifier,
-        rawVars: 0
-    }, statics = {
-        targetTest: 0,
-        get: 0,
-        getSetter: _getSetter,
-        aliases: {},
-        register: 0
-    };
-    _wake();
-    if (config !== Plugin) {
-        if (_plugins[name]) return;
-        _setDefaults(Plugin, _setDefaults(_copyExcluding(config, instanceDefaults), statics)); //static methods
-        _merge(Plugin.prototype, _merge(instanceDefaults, _copyExcluding(config, statics))); //instance methods
-        _plugins[Plugin.prop = name] = Plugin;
-        if (config.targetTest) {
-            _harnessPlugins.push(Plugin);
-            _reservedProps[name] = 1;
+    if (!config) return;
+    config = !config.name && config["default"] || config; // UMD packaging wraps things oddly, so for example MotionPathHelper becomes {MotionPathHelper:MotionPathHelper, default:MotionPathHelper}.
+    if (_windowExists() || config.headless) {
+        // edge case: some build tools may pass in a null/undefined value
+        var name = config.name, isFunc = _isFunction(config), Plugin = name && !isFunc && config.init ? function() {
+            this._props = [];
+        } : config, //in case someone passes in an object that's not a plugin, like CustomEase
+        instanceDefaults = {
+            init: _emptyFunc,
+            render: _renderPropTweens,
+            add: _addPropTween,
+            kill: _killPropTweensOf,
+            modifier: _addPluginModifier,
+            rawVars: 0
+        }, statics = {
+            targetTest: 0,
+            get: 0,
+            getSetter: _getSetter,
+            aliases: {},
+            register: 0
+        };
+        _wake();
+        if (config !== Plugin) {
+            if (_plugins[name]) return;
+            _setDefaults(Plugin, _setDefaults(_copyExcluding(config, instanceDefaults), statics)); //static methods
+            _merge(Plugin.prototype, _merge(instanceDefaults, _copyExcluding(config, statics))); //instance methods
+            _plugins[Plugin.prop = name] = Plugin;
+            if (config.targetTest) {
+                _harnessPlugins.push(Plugin);
+                _reservedProps[name] = 1;
+            }
+            name = (name === "css" ? "CSS" : name.charAt(0).toUpperCase() + name.substr(1)) + "Plugin"; //for the global name. "motionPath" should become MotionPathPlugin
         }
-        name = (name === "css" ? "CSS" : name.charAt(0).toUpperCase() + name.substr(1)) + "Plugin"; //for the global name. "motionPath" should become MotionPathPlugin
-    }
-    _addGlobal(name, Plugin);
-    config.register && config.register(gsap, Plugin, PropTween);
+        _addGlobal(name, Plugin);
+        config.register && config.register(gsap, Plugin, PropTween);
+    } else _registerPluginQueue.push(config);
 }, /*
  * --------------------------------------------------------------------------------------
  * COLORS
@@ -1744,7 +1766,7 @@ _hue = function _hue(h, m1, m2) {
  */ _tickerActive, _ticker = function() {
     var _getTime = Date.now, _lagThreshold = 500, _adjustedLag = 33, _startTime = _getTime(), _lastUpdate = _startTime, _gap = 1000 / 240, _nextTime = _gap, _listeners = [], _id, _req, _raf, _self, _delta, _i, _tick = function _tick(v) {
         var elapsed = _getTime() - _lastUpdate, manual = v === true, overlap, dispatch, time, frame;
-        elapsed > _lagThreshold && (_startTime += elapsed - _adjustedLag);
+        (elapsed > _lagThreshold || elapsed < 0) && (_startTime += elapsed - _adjustedLag);
         _lastUpdate += elapsed;
         time = _lastUpdate - _startTime;
         overlap = time - _nextTime;
@@ -1776,9 +1798,9 @@ _hue = function _hue(h, m1, m2) {
                     _globals.gsap = gsap;
                     (_win.gsapVersions || (_win.gsapVersions = [])).push(gsap.version);
                     _install(_installScope || _win.GreenSockGlobals || !_win.gsap && _win || {});
-                    _raf = _win.requestAnimationFrame;
                     _registerPluginQueue.forEach(_createPlugin);
                 }
+                _raf = typeof requestAnimationFrame !== "undefined" && requestAnimationFrame;
                 _id && _self.sleep();
                 _req = _raf || function(f) {
                     return setTimeout(f, _nextTime - _self.time * 1000 + 1 | 0);
@@ -1788,7 +1810,7 @@ _hue = function _hue(h, m1, m2) {
             }
         },
         sleep: function sleep() {
-            (_raf ? _win.cancelAnimationFrame : clearTimeout)(_id);
+            (_raf ? cancelAnimationFrame : clearTimeout)(_id);
             _tickerActive = 0;
             _req = _emptyFunc;
         },
@@ -2040,17 +2062,17 @@ var Animation = /*#__PURE__*/ function() {
         return arguments.length ? this.totalTime(Math.min(this.totalDuration(), value + _elapsedCycleDuration(this)) % (this._dur + this._rDelay) || (value ? this._dur : 0), suppressEvents) : this._time; // note: if the modulus results in 0, the playhead could be exactly at the end or the beginning, and we always defer to the END with a non-zero value, otherwise if you set the time() to the very end (duration()), it would render at the START!
     };
     _proto.totalProgress = function totalProgress(value, suppressEvents) {
-        return arguments.length ? this.totalTime(this.totalDuration() * value, suppressEvents) : this.totalDuration() ? Math.min(1, this._tTime / this._tDur) : this.ratio;
+        return arguments.length ? this.totalTime(this.totalDuration() * value, suppressEvents) : this.totalDuration() ? Math.min(1, this._tTime / this._tDur) : this.rawTime() > 0 ? 1 : 0;
     };
     _proto.progress = function progress(value, suppressEvents) {
-        return arguments.length ? this.totalTime(this.duration() * (this._yoyo && !(this.iteration() & 1) ? 1 - value : value) + _elapsedCycleDuration(this), suppressEvents) : this.duration() ? Math.min(1, this._time / this._dur) : this.ratio;
+        return arguments.length ? this.totalTime(this.duration() * (this._yoyo && !(this.iteration() & 1) ? 1 - value : value) + _elapsedCycleDuration(this), suppressEvents) : this.duration() ? Math.min(1, this._time / this._dur) : this.rawTime() > 0 ? 1 : 0;
     };
     _proto.iteration = function iteration(value, suppressEvents) {
         var cycleDuration = this.duration() + this._rDelay;
         return arguments.length ? this.totalTime(this._time + (value - 1) * cycleDuration, suppressEvents) : this._repeat ? _animationCycle(this._tTime, cycleDuration) + 1 : 1;
     } // potential future addition:
     ;
-    _proto.timeScale = function timeScale(value) {
+    _proto.timeScale = function timeScale(value, suppressEvents) {
         if (!arguments.length) return this._rts === -_tinyNum ? 0 : this._rts; // recorded timeScale. Special case: if someone calls reverse() on an animation with timeScale of 0, we assign it -_tinyNum to remember it's reversed.
         if (this._rts === value) return this;
         var tTime = this.parent && this._ts ? _parentToChildTotalTime(this.parent._time, this) : this._tTime; // make sure to do the parentToChildTotalTime() BEFORE setting the new _ts because the old one must be used in that calculation.
@@ -2059,7 +2081,7 @@ var Animation = /*#__PURE__*/ function() {
         // prioritize rendering where the parent's playhead lines up instead of this._tTime because there could be a tween that's animating another tween's timeScale in the same rendering loop (same parent), thus if the timeScale tween renders first, it would alter _start BEFORE _tTime was set on that tick (in the rendering loop), effectively freezing it until the timeScale tween finishes.
         this._rts = +value || 0;
         this._ts = this._ps || value === -_tinyNum ? 0 : this._rts; // _ts is the functional timeScale which would be 0 if the animation is paused.
-        this.totalTime(_clamp(-Math.abs(this._delay), this._tDur, tTime), true);
+        this.totalTime(_clamp(-Math.abs(this._delay), this._tDur, tTime), suppressEvents !== false);
         _setEnd(this); // if parent.smoothChildTiming was false, the end time didn't get updated in the _alignPlayhead() method, so do it here.
         return _recacheAncestors(this);
     };
@@ -2109,10 +2131,10 @@ var Animation = /*#__PURE__*/ function() {
     _proto.globalTime = function globalTime(rawTime) {
         var animation = this, time = arguments.length ? rawTime : animation.rawTime();
         while(animation){
-            time = animation._start + time / (animation._ts || 1);
+            time = animation._start + time / (Math.abs(animation._ts) || 1);
             animation = animation._dp;
         }
-        return !this.parent && this._sat ? this._sat.vars.immediateRender ? -1 : this._sat.globalTime(rawTime) : time; // the _startAt tweens for .fromTo() and .from() that have immediateRender should always be FIRST in the timeline (important for context.revert()). "_sat" stands for _startAtTween, referring to the parent tween that created the _startAt. We must discern if that tween had immediateRender so that we can know whether or not to prioritize it in revert().
+        return !this.parent && this._sat ? this._sat.globalTime(rawTime) : time; // the _startAt tweens for .fromTo() and .from() that have immediateRender should always be FIRST in the timeline (important for context.revert()). "_sat" stands for _startAtTween, referring to the parent tween that created the _startAt. We must discern if that tween had immediateRender so that we can know whether or not to prioritize it in revert().
     };
     _proto.repeat = function repeat(value) {
         if (arguments.length) {
@@ -2323,7 +2345,7 @@ var Timeline = /*#__PURE__*/ function(_Animation) {
                     time > dur && (time = dur);
                 }
                 prevIteration = _animationCycle(this._tTime, cycleDuration);
-                !prevTime && this._tTime && prevIteration !== iteration && this._tTime - prevIteration * cycleDuration - this._dur <= 0 && (prevIteration = iteration); // edge case - if someone does addPause() at the very beginning of a repeating timeline, that pause is technically at the same spot as the end which causes this._time to get set to 0 when the totalTime would normally place the playhead at the end. See https://greensock.com/forums/topic/23823-closing-nav-animation-not-working-on-ie-and-iphone-6-maybe-other-older-browser/?tab=comments#comment-113005 also, this._tTime - prevIteration * cycleDuration - this._dur <= 0 just checks to make sure it wasn't previously in the "repeatDelay" portion
+                !prevTime && this._tTime && prevIteration !== iteration && this._tTime - prevIteration * cycleDuration - this._dur <= 0 && (prevIteration = iteration); // edge case - if someone does addPause() at the very beginning of a repeating timeline, that pause is technically at the same spot as the end which causes this._time to get set to 0 when the totalTime would normally place the playhead at the end. See https://gsap.com/forums/topic/23823-closing-nav-animation-not-working-on-ie-and-iphone-6-maybe-other-older-browser/?tab=comments#comment-113005 also, this._tTime - prevIteration * cycleDuration - this._dur <= 0 just checks to make sure it wasn't previously in the "repeatDelay" portion
                 if (yoyo && iteration & 1) {
                     time = dur - time;
                     isYoyo = 1;
@@ -2338,7 +2360,7 @@ var Timeline = /*#__PURE__*/ function(_Animation) {
         */ if (iteration !== prevIteration && !this._lock) {
                     var rewinding = yoyo && prevIteration & 1, doesWrap = rewinding === (yoyo && iteration & 1);
                     iteration < prevIteration && (rewinding = !rewinding);
-                    prevTime = rewinding ? 0 : dur;
+                    prevTime = rewinding ? 0 : tTime % dur ? dur : tTime; // if the playhead is landing exactly at the end of an iteration, use that totalTime rather than only the duration, otherwise it'll skip the 2nd render since it's effectively at the same time.
                     this._lock = 1;
                     this.render(prevTime || (isYoyo ? 0 : _roundPrecise(iteration * cycleDuration)), suppressEvents, !dur)._lock = 0;
                     this._tTime = tTime; // if a user gets the iteration() inside the onRepeat, for example, it should be accurate.
@@ -2753,7 +2775,7 @@ _processVars = function _processVars(vars, index, target, targets, tween) {
     return plugin;
 }, _overwritingTween, //store a reference temporarily so we can avoid overwriting itself.
 _forceAllPropTweens, _initTween = function _initTween(tween, time, tTime) {
-    var vars = tween.vars, ease = vars.ease, startAt = vars.startAt, immediateRender = vars.immediateRender, lazy = vars.lazy, onUpdate = vars.onUpdate, onUpdateParams = vars.onUpdateParams, callbackScope = vars.callbackScope, runBackwards = vars.runBackwards, yoyoEase = vars.yoyoEase, keyframes = vars.keyframes, autoRevert = vars.autoRevert, dur = tween._dur, prevStartAt = tween._startAt, targets = tween._targets, parent = tween.parent, fullTargets = parent && parent.data === "nested" ? parent.vars.targets : targets, autoOverwrite = tween._overwrite === "auto" && !_suppressOverwrites, tl = tween.timeline, cleanVars, i, p, pt, target, hasPriority, gsData, harness, plugin, ptLookup, index, harnessVars, overwritten;
+    var vars = tween.vars, ease = vars.ease, startAt = vars.startAt, immediateRender = vars.immediateRender, lazy = vars.lazy, onUpdate = vars.onUpdate, runBackwards = vars.runBackwards, yoyoEase = vars.yoyoEase, keyframes = vars.keyframes, autoRevert = vars.autoRevert, dur = tween._dur, prevStartAt = tween._startAt, targets = tween._targets, parent = tween.parent, fullTargets = parent && parent.data === "nested" ? parent.vars.targets : targets, autoOverwrite = tween._overwrite === "auto" && !_suppressOverwrites, tl = tween.timeline, cleanVars, i, p, pt, target, hasPriority, gsData, harness, plugin, ptLookup, index, harnessVars, overwritten;
     tl && (!keyframes || !ease) && (ease = "none");
     tween._ease = _parseEase(ease, _defaults.ease);
     tween._yEase = yoyoEase ? _invertEase(_parseEase(yoyoEase === true ? ease : yoyoEase, _defaults.ease)) : 0;
@@ -2784,9 +2806,9 @@ _forceAllPropTweens, _initTween = function _initTween(tween, time, tTime) {
                 lazy: !prevStartAt && _isNotFalse(lazy),
                 startAt: null,
                 delay: 0,
-                onUpdate: onUpdate,
-                onUpdateParams: onUpdateParams,
-                callbackScope: callbackScope,
+                onUpdate: onUpdate && function() {
+                    return _callback(tween, "onUpdate");
+                },
                 stagger: 0
             }, startAt))); //copy the properties/values into a new object to avoid collisions, like var to = {x:0}, from = {x:500}; timeline.fromTo(e, from, to).fromTo(e, to, from);
             tween._startAt._dp = 0; // don't allow it to get put back into root timeline! Like when revert() is called and totalTime() gets set.
@@ -2811,7 +2833,7 @@ _forceAllPropTweens, _initTween = function _initTween(tween, time, tTime) {
                     immediateRender: immediateRender,
                     //zero-duration tweens render immediately by default, but if we're not specifically instructed to render this tween immediately, we should skip this and merely _init() to record the starting values (rendering them immediately would push them to completion which is wasteful in that case - we'd have to render(-1) immediately after)
                     stagger: 0,
-                    parent: parent //ensures that nested tweens that had a stagger are handled properly, like gsap.from(".class", {y:gsap.utils.wrap([-100,100])})
+                    parent: parent //ensures that nested tweens that had a stagger are handled properly, like gsap.from(".class", {y: gsap.utils.wrap([-100,100]), stagger: 0.5})
                 }, cleanVars);
                 harnessVars && (p[harness.prop] = harnessVars); // in case someone does something like .from(..., {css:{}})
                 _removeFromParent(tween._startAt = Tween.set(targets, p));
@@ -2857,7 +2879,7 @@ _forceAllPropTweens, _initTween = function _initTween(tween, time, tTime) {
     tween._onUpdate = onUpdate;
     tween._initted = (!tween._op || tween._pt) && !overwritten; // if overwrittenProps resulted in the entire tween being killed, do NOT flag it as initted or else it may render for one tick.
     keyframes && time <= 0 && tl.render(_bigNum, true, true); // if there's a 0% keyframe, it'll render in the "before" state for any staggered/delayed animations thus when the following tween initializes, it'll use the "before" state instead of the "after" state as the initial values.
-}, _updatePropTweens = function _updatePropTweens(tween, property, value, start, startIsRelative, ratio, time) {
+}, _updatePropTweens = function _updatePropTweens(tween, property, value, start, startIsRelative, ratio, time, skipRecursion) {
     var ptCache = (tween._pt && tween._ptCache || (tween._ptCache = {}))[property], pt, rootPT, lookup, i;
     if (!ptCache) {
         ptCache = tween._ptCache[property] = [];
@@ -2878,7 +2900,7 @@ _forceAllPropTweens, _initTween = function _initTween(tween, time, tTime) {
                 tween.vars[property] = "+=0";
                 _initTween(tween, time);
                 _forceAllPropTweens = 0;
-                return 1;
+                return skipRecursion ? _warn(property + " not eligible for reset") : 1; // if someone tries to do a quickTo() on a special property like borderRadius which must get split into 4 different properties, that's not eligible for .resetTo().
             }
             ptCache.push(pt);
         }
@@ -2941,7 +2963,7 @@ var Tween = /*#__PURE__*/ function(_Animation2) {
         var _this3$vars = _this3.vars, duration = _this3$vars.duration, delay = _this3$vars.delay, immediateRender = _this3$vars.immediateRender, stagger = _this3$vars.stagger, overwrite = _this3$vars.overwrite, keyframes = _this3$vars.keyframes, defaults = _this3$vars.defaults, scrollTrigger = _this3$vars.scrollTrigger, yoyoEase = _this3$vars.yoyoEase, parent = vars.parent || _globalTimeline, parsedTargets = (_isArray(targets) || _isTypedArray(targets) ? _isNumber(targets[0]) : "length" in vars) ? [
             targets
         ] : toArray(targets), tl, i, copy, l, p, curTarget, staggerFunc, staggerVarsToMerge;
-        _this3._targets = parsedTargets.length ? _harness(parsedTargets) : _warn("GSAP target " + targets + " not found. https://greensock.com", !_config.nullTargetWarn) || [];
+        _this3._targets = parsedTargets.length ? _harness(parsedTargets) : _warn("GSAP target " + targets + " not found. https://gsap.com", !_config.nullTargetWarn) || [];
         _this3._ptLookup = []; //PropTween lookup. An array containing an object for each target, having keys for each tweening property
         _this3._overwrite = overwrite;
         if (keyframes || stagger || _isFuncOrString(duration) || _isFuncOrString(delay)) {
@@ -3053,7 +3075,7 @@ var Tween = /*#__PURE__*/ function(_Animation2) {
                     time = dur;
                 } else {
                     iteration = ~~(tTime / cycleDuration);
-                    if (iteration && iteration === tTime / cycleDuration) {
+                    if (iteration && iteration === _roundPrecise(tTime / cycleDuration)) {
                         time = dur;
                         iteration--;
                     }
@@ -3065,14 +3087,15 @@ var Tween = /*#__PURE__*/ function(_Animation2) {
                     time = dur - time;
                 }
                 prevIteration = _animationCycle(this._tTime, cycleDuration);
-                if (time === prevTime && !force && this._initted) {
+                if (time === prevTime && !force && this._initted && iteration === prevIteration) {
                     //could be during the repeatDelay part. No need to render and fire callbacks.
                     this._tTime = tTime;
                     return this;
                 }
                 if (iteration !== prevIteration) {
                     timeline && this._yEase && _propagateYoyoEase(timeline, isYoyo); //repeatRefresh functionality
-                    if (this.vars.repeatRefresh && !isYoyo && !this._lock) {
+                    if (this.vars.repeatRefresh && !isYoyo && !this._lock && this._time !== cycleDuration && this._initted) {
+                        // this._time will === cycleDuration when we render at EXACTLY the end of an iteration. Without this condition, it'd often do the repeatRefresh render TWICE (again on the very next tick).
                         this._lock = force = 1; //force, otherwise if lazy is true, the _attemptInitTween() will return and we'll jump out and get caught bouncing on each tick.
                         this.render(_roundPrecise(cycleDuration * iteration), true).invalidate()._lock = 0;
                     }
@@ -3083,7 +3106,7 @@ var Tween = /*#__PURE__*/ function(_Animation2) {
                     this._tTime = 0; // in constructor if immediateRender is true, we set _tTime to -_tinyNum to have the playhead cross the starting point but we can't leave _tTime as a negative number.
                     return this;
                 }
-                if (prevTime !== this._time) // rare edge case - during initialization, an onUpdate in the _startAt (.fromTo()) might force this tween to render at a different spot in which case we should ditch this render() call so that it doesn't revert the values.
+                if (prevTime !== this._time && !(force && this.vars.repeatRefresh && iteration !== prevIteration)) // rare edge case - during initialization, an onUpdate in the _startAt (.fromTo()) might force this tween to render at a different spot in which case we should ditch this render() call so that it doesn't revert the values. But we also don't want to dump if we're doing a repeatRefresh render!
                 return this;
                 if (dur !== this._dur) // while initting, a plugin like InertiaPlugin might alter the duration, so rerun from the start to ensure everything renders as it should.
                 return this.render(totalTime, suppressEvents, force);
@@ -3106,7 +3129,7 @@ var Tween = /*#__PURE__*/ function(_Animation2) {
                 pt.r(ratio, pt.d);
                 pt = pt._next;
             }
-            timeline && timeline.render(totalTime < 0 ? totalTime : !time && isYoyo ? -_tinyNum : timeline._dur * timeline._ease(time / this._dur), suppressEvents, force) || this._startAt && (this._zTime = totalTime);
+            timeline && timeline.render(totalTime < 0 ? totalTime : timeline._dur * timeline._ease(time / this._dur), suppressEvents, force) || this._startAt && (this._zTime = totalTime);
             if (this._onUpdate && !suppressEvents) {
                 isNegative && _rewindStartAt(this, totalTime, suppressEvents, force); //note: for performance reasons, we tuck this conditional logic inside less traveled areas (most tweens don't have an onUpdate). We'd just have it at the end before the onComplete, but the values should be updated before any onUpdate is called, so we ALSO put it here and then if it's not called, we do so later near the onComplete.
                 _callback(this, "onUpdate");
@@ -3135,7 +3158,7 @@ var Tween = /*#__PURE__*/ function(_Animation2) {
         this.timeline && this.timeline.invalidate(soft);
         return _Animation2.prototype.invalidate.call(this, soft);
     };
-    _proto3.resetTo = function resetTo(property, value, start, startIsRelative) {
+    _proto3.resetTo = function resetTo(property, value, start, startIsRelative, skipRecursion) {
         _tickerActive || _ticker.wake();
         this._ts || this.play();
         var time = Math.min(this._dur, (this._dp._time - this._start) * this._ts), ratio;
@@ -3149,7 +3172,7 @@ var Tween = /*#__PURE__*/ function(_Animation2) {
         // 		}
         // 	}
         // } else {
-        if (_updatePropTweens(this, property, value, start, startIsRelative, ratio, time)) return this.resetTo(property, value, start, startIsRelative); // if a PropTween wasn't found for the property, it'll get forced with a re-initialization so we need to jump out and start over again.
+        if (_updatePropTweens(this, property, value, start, startIsRelative, ratio, time, skipRecursion)) return this.resetTo(property, value, start, startIsRelative, 1); // if a PropTween wasn't found for the property, it'll get forced with a re-initialization so we need to jump out and start over again.
          //}
         _alignPlayhead(this, 0);
         this.parent || _addLinkedListItem(this._dp, this, "_first", "_last", this._dp._sort ? "_start" : 0);
@@ -3366,7 +3389,7 @@ _globalTimeline = new Timeline({
     smoothChildTiming: true
 });
 _config.stringFilter = _colorStringFilter;
-var _media = [], _listeners = {}, _emptyArray = [], _lastMediaTime = 0, _dispatch = function _dispatch(type) {
+var _media = [], _listeners = {}, _emptyArray = [], _lastMediaTime = 0, _contextID = 0, _dispatch = function _dispatch(type) {
     return (_listeners[type] || _emptyArray).map(function(f) {
         return f();
     });
@@ -3391,7 +3414,9 @@ var _media = [], _listeners = {}, _emptyArray = [], _lastMediaTime = 0, _dispatc
         });
         _dispatch("matchMediaRevert");
         matches.forEach(function(c) {
-            return c.onMatch(c);
+            return c.onMatch(c, function(func) {
+                return c.add(null, func);
+            });
         });
         _lastMediaTime = time;
         _dispatch("matchMedia");
@@ -3403,6 +3428,7 @@ var Context = /*#__PURE__*/ function() {
         this.data = [];
         this._r = []; // returned/cleanup functions
         this.isReverted = false;
+        this.id = _contextID++; // to work around issues that frameworks like Vue cause by making things into Proxies which make it impossible to do something like _media.indexOf(this) because "this" would no longer refer to the Context instance itself - it'd refer to a Proxy! We needed a way to identify the context uniquely
         func && this.add(func);
     }
     var _proto5 = Context.prototype;
@@ -3430,7 +3456,9 @@ var Context = /*#__PURE__*/ function() {
             return result;
         };
         self.last = f;
-        return name === _isFunction ? f(self) : name ? self[name] = f : f;
+        return name === _isFunction ? f(self, function(func) {
+            return self.add(null, func);
+        }) : name ? self[name] = f : f;
     };
     _proto5.ignore = function ignore(func) {
         var prev = _context;
@@ -3450,41 +3478,52 @@ var Context = /*#__PURE__*/ function() {
     };
     _proto5.kill = function kill(revert, matchMedia) {
         var _this4 = this;
-        if (revert) {
-            var tweens = this.getTweens();
-            this.data.forEach(function(t) {
+        if (revert) (function() {
+            var tweens = _this4.getTweens(), i = _this4.data.length, t;
+            while(i--){
                 // Flip plugin tweens are very different in that they should actually be pushed to their end. The plugin replaces the timeline's .revert() method to do exactly that. But we also need to remove any of those nested tweens inside the flip timeline so that they don't get individually reverted.
+                t = _this4.data[i];
                 if (t.data === "isFlip") {
                     t.revert();
                     t.getChildren(true, true, false).forEach(function(tween) {
                         return tweens.splice(tweens.indexOf(tween), 1);
                     });
                 }
-            }); // save as an object so that we can cache the globalTime for each tween to optimize performance during the sort
+            } // save as an object so that we can cache the globalTime for each tween to optimize performance during the sort
             tweens.map(function(t) {
                 return {
-                    g: t.globalTime(0),
+                    g: t._dur || t._delay || t._sat && !t._sat.vars.immediateRender ? t.globalTime(0) : -Infinity,
                     t: t
                 };
             }).sort(function(a, b) {
-                return b.g - a.g || -1;
+                return b.g - a.g || -Infinity;
             }).forEach(function(o) {
                 return o.t.revert(revert);
             }); // note: all of the _startAt tweens should be reverted in reverse order that they were created, and they'll all have the same globalTime (-1) so the " || -1" in the sort keeps the order properly.
-            this.data.forEach(function(e) {
-                return !(e instanceof Animation) && e.revert && e.revert(revert);
-            });
-            this._r.forEach(function(f) {
+            i = _this4.data.length;
+            while(i--){
+                // make sure we loop backwards so that, for example, SplitTexts that were created later on the same element get reverted first
+                t = _this4.data[i];
+                if (t instanceof Timeline) {
+                    if (t.data !== "nested") {
+                        t.scrollTrigger && t.scrollTrigger.revert();
+                        t.kill(); // don't revert() the timeline because that's duplicating efforts since we already reverted all the tweens
+                    }
+                } else !(t instanceof Tween) && t.revert && t.revert(revert);
+            }
+            _this4._r.forEach(function(f) {
                 return f(revert, _this4);
             });
-            this.isReverted = true;
-        } else this.data.forEach(function(e) {
+            _this4.isReverted = true;
+        })();
+        else this.data.forEach(function(e) {
             return e.kill && e.kill();
         });
         this.clear();
         if (matchMedia) {
-            var i = _media.indexOf(this);
-            !!~i && _media.splice(i, 1);
+            var i = _media.length;
+            while(i--)// previously, we checked _media.indexOf(this), but some frameworks like Vue enforce Proxy objects that make it impossible to get the proper result that way, so we must use a unique ID number instead.
+            _media[i].id === this.id && _media.splice(i, 1);
         }
     };
     _proto5.revert = function revert(config) {
@@ -3496,6 +3535,7 @@ var MatchMedia = /*#__PURE__*/ function() {
     function MatchMedia(scope) {
         this.contexts = [];
         this.scope = scope;
+        _context && _context.data.push(this);
     }
     var _proto6 = MatchMedia.prototype;
     _proto6.add = function add(conditions, func, scope) {
@@ -3503,6 +3543,7 @@ var MatchMedia = /*#__PURE__*/ function() {
             matches: conditions
         });
         var context = new Context(0, scope || this.scope), cond = context.conditions = {}, mq, p, active;
+        _context && !context.selector && (context.selector = _context.selector); // in case a context is created inside a context. Like a gsap.matchMedia() that's inside a scoped gsap.context()
         this.contexts.push(context);
         func = context.add("onMatch", func);
         context.queries = conditions;
@@ -3515,7 +3556,9 @@ var MatchMedia = /*#__PURE__*/ function() {
                 mq.addListener ? mq.addListener(_onMediaChange) : mq.addEventListener("change", _onMediaChange);
             }
         }
-        active && func(context);
+        active && func(context, function(f) {
+            return context.add(null, f);
+        });
         return this;
     } // refresh() {
     ;
@@ -3782,19 +3825,19 @@ var gsap = _gsap.registerPlugin({
         while(i--)this.add(target, i, target[i] || 0, value[i], 0, 0, 0, 0, 0, 1);
     }
 }, _buildModifierPlugin("roundProps", _roundModifier), _buildModifierPlugin("modifiers"), _buildModifierPlugin("snap", snap)) || _gsap; //to prevent the core plugins from being dropped via aggressive tree shaking, we must include them in the variable declaration in this way.
-Tween.version = Timeline.version = gsap.version = "3.11.5";
+Tween.version = Timeline.version = gsap.version = "3.12.5";
 _coreReady = 1;
 _windowExists() && _wake();
 var Power0 = _easeMap.Power0, Power1 = _easeMap.Power1, Power2 = _easeMap.Power2, Power3 = _easeMap.Power3, Power4 = _easeMap.Power4, Linear = _easeMap.Linear, Quad = _easeMap.Quad, Cubic = _easeMap.Cubic, Quart = _easeMap.Quart, Quint = _easeMap.Quint, Strong = _easeMap.Strong, Elastic = _easeMap.Elastic, Back = _easeMap.Back, SteppedEase = _easeMap.SteppedEase, Bounce = _easeMap.Bounce, Sine = _easeMap.Sine, Expo = _easeMap.Expo, Circ = _easeMap.Circ;
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"l02JQ":[function(require,module,exports) {
 /*!
- * CSSPlugin 3.11.5
- * https://greensock.com
+ * CSSPlugin 3.12.5
+ * https://gsap.com
  *
- * Copyright 2008-2023, GreenSock. All rights reserved.
- * Subject to the terms at https://greensock.com/standard-license or for
- * Club GreenSock members, the agreement issued with that membership.
+ * Copyright 2008-2024, GreenSock. All rights reserved.
+ * Subject to the terms at https://gsap.com/standard-license or for
+ * Club GSAP members, the agreement issued with that membership.
  * @author: Jack Doyle, jack@greensock.com
 */ /* eslint-disable */ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
@@ -3842,19 +3885,20 @@ _renderRoundedCSSProp = function _renderRoundedCSSProp(ratio, data) {
     cache.renderTransform(ratio, cache);
 }, _transformProp = "transform", _transformOriginProp = _transformProp + "Origin", _saveStyle = function _saveStyle(property, isNotCSS) {
     var _this = this;
-    var target = this.target, style = target.style;
-    if (property in _transformProps) {
+    var target = this.target, style = target.style, cache = target._gsap;
+    if (property in _transformProps && style) {
         this.tfm = this.tfm || {};
         if (property !== "transform") {
             property = _propertyAliases[property] || property;
             ~property.indexOf(",") ? property.split(",").forEach(function(a) {
                 return _this.tfm[a] = _get(target, a);
-            }) : this.tfm[property] = target._gsap.x ? target._gsap[property] : _get(target, property); // note: scale would map to "scaleX,scaleY", thus we loop and apply them both.
+            }) : this.tfm[property] = cache.x ? cache[property] : _get(target, property); // note: scale would map to "scaleX,scaleY", thus we loop and apply them both.
+            property === _transformOriginProp && (this.tfm.zOrigin = cache.zOrigin);
         } else return _propertyAliases.transform.split(",").forEach(function(p) {
             return _saveStyle.call(_this, p, isNotCSS);
         });
         if (this.props.indexOf(_transformProp) >= 0) return;
-        if (target._gsap.svg) {
+        if (cache.svg) {
             this.svgo = target.getAttribute("data-svg-origin");
             this.props.push(_transformOriginProp, isNotCSS, "");
         }
@@ -3880,6 +3924,11 @@ _renderRoundedCSSProp = function _renderRoundedCSSProp(ratio, data) {
         i = _reverting();
         if ((!i || !i.isStart) && !style[_transformProp]) {
             _removeIndependentTransforms(style);
+            if (cache.zOrigin && style[_transformOriginProp]) {
+                style[_transformOriginProp] += " " + cache.zOrigin + "px"; // since we're uncaching, we must put the zOrigin back into the transformOrigin so that we can pull it out accurately when we parse again. Otherwise, we'd lose the z portion of the origin since we extract it to protect from Safari bugs.
+                cache.zOrigin = 0;
+                cache.renderTransform();
+            }
             cache.uncache = 1; // if it's a startAt that's being reverted in the _initTween() of the core, we don't need to uncache transforms. This is purely a performance optimization.
         }
     }
@@ -3897,7 +3946,7 @@ _renderRoundedCSSProp = function _renderRoundedCSSProp(ratio, data) {
     return saver;
 }, _supports3D, _createElement = function _createElement(type, ns) {
     var e = _doc.createElementNS ? _doc.createElementNS((ns || "http://www.w3.org/1999/xhtml").replace(/^https/, "http"), type) : _doc.createElement(type); //some servers swap in https for http in the namespace which can break things, making "style" inaccessible.
-    return e.style ? e : _doc.createElement(type); //some environments won't allow access to the element's style when created with a namespace in which case we default to the standard createElement() to work around the issue. Also note that when GSAP is embedded directly inside an SVG file, createElement() won't allow access to the style object in Firefox (see https://greensock.com/forums/topic/20215-problem-using-tweenmax-in-standalone-self-containing-svg-file-err-cannot-set-property-csstext-of-undefined/).
+    return e && e.style ? e : _doc.createElement(type); //some environments won't allow access to the element's style when created with a namespace in which case we default to the standard createElement() to work around the issue. Also note that when GSAP is embedded directly inside an SVG file, createElement() won't allow access to the style object in Firefox (see https://gsap.com/forums/topic/20215-problem-using-tweenmax-in-standalone-self-containing-svg-file-err-cannot-set-property-csstext-of-undefined/).
 }, _getComputedProperty = function _getComputedProperty(target, property, skipPrefixFallback) {
     var cs = getComputedStyle(target);
     return cs[property] || cs.getPropertyValue(property.replace(_capsExp, "-$1").toLowerCase()) || cs.getPropertyValue(property) || !skipPrefixFallback && _getComputedProperty(target, _checkPropPrefix(property) || property, 1) || ""; //css variables may not need caps swapped out for dashes and lowercase.
@@ -3974,12 +4023,13 @@ _renderRoundedCSSProp = function _renderRoundedCSSProp(ratio, data) {
 }, //reports if the element is an SVG on which getBBox() actually works
 _removeProperty = function _removeProperty(target, property) {
     if (property) {
-        var style = target.style;
+        var style = target.style, first2Chars;
         if (property in _transformProps && property !== _transformOriginProp) property = _transformProp;
         if (style.removeProperty) {
-            if (property.substr(0, 2) === "ms" || property.substr(0, 6) === "webkit") //Microsoft and some Webkit browsers don't conform to the standard of capitalizing the first prefix character, so we adjust so that when we prefix the caps with a dash, it's correct (otherwise it'd be "ms-transform" instead of "-ms-transform" for IE9, for example)
+            first2Chars = property.substr(0, 2);
+            if (first2Chars === "ms" || property.substr(0, 6) === "webkit") //Microsoft and some Webkit browsers don't conform to the standard of capitalizing the first prefix character, so we adjust so that when we prefix the caps with a dash, it's correct (otherwise it'd be "ms-transform" instead of "-ms-transform" for IE9, for example)
             property = "-" + property;
-            style.removeProperty(property.replace(_capsExp, "-$1").toLowerCase());
+            style.removeProperty(first2Chars === "--" ? property : property.replace(_capsExp, "-$1").toLowerCase());
         } else //note: old versions of IE use "removeAttribute()" instead of "removeProperty()"
         style.removeAttribute(property);
     }
@@ -4015,12 +4065,20 @@ _convertToUnit = function _convertToUnit(target, property, value, unit) {
     cache = parent._gsap;
     if (cache && toPercent && cache.width && horizontal && cache.time === (0, _gsapCoreJs._ticker).time && !cache.uncache) return (0, _gsapCoreJs._round)(curValue / cache.width * amount);
     else {
-        (toPercent || curUnit === "%") && !_nonStandardLayouts[_getComputedProperty(parent, "display")] && (style.position = _getComputedProperty(target, "position"));
-        parent === target && (style.position = "static"); // like for borderRadius, if it's a % we must have it relative to the target itself but that may not have position: relative or position: absolute in which case it'd go up the chain until it finds its offsetParent (bad). position: static protects against that.
-        parent.appendChild(_tempDiv);
-        px = _tempDiv[measureProperty];
-        parent.removeChild(_tempDiv);
-        style.position = "absolute";
+        if (toPercent && (property === "height" || property === "width")) {
+            // if we're dealing with width/height that's inside a container with padding and/or it's a flexbox/grid container, we must apply it to the target itself rather than the _tempDiv in order to ensure complete accuracy, factoring in the parent's padding.
+            var v = target.style[property];
+            target.style[property] = amount + unit;
+            px = target[measureProperty];
+            v ? target.style[property] = v : _removeProperty(target, property);
+        } else {
+            (toPercent || curUnit === "%") && !_nonStandardLayouts[_getComputedProperty(parent, "display")] && (style.position = _getComputedProperty(target, "position"));
+            parent === target && (style.position = "static"); // like for borderRadius, if it's a % we must have it relative to the target itself but that may not have position: relative or position: absolute in which case it'd go up the chain until it finds its offsetParent (bad). position: static protects against that.
+            parent.appendChild(_tempDiv);
+            px = _tempDiv[measureProperty];
+            parent.removeChild(_tempDiv);
+            style.position = "absolute";
+        }
         if (horizontal && toPercent) {
             cache = (0, _gsapCoreJs._getCache)(parent);
             cache.time = (0, _gsapCoreJs._ticker).time;
@@ -4046,12 +4104,12 @@ _convertToUnit = function _convertToUnit(target, property, value, unit) {
 }, _tweenComplexCSSString = function _tweenComplexCSSString(target, prop, start, end) {
     // note: we call _tweenComplexCSSString.call(pluginInstance...) to ensure that it's scoped properly. We may call it from within a plugin too, thus "this" would refer to the plugin.
     if (!start || start === "none") {
-        // some browsers like Safari actually PREFER the prefixed property and mis-report the unprefixed value like clipPath (BUG). In other words, even though clipPath exists in the style ("clipPath" in target.style) and it's set in the CSS properly (along with -webkit-clip-path), Safari reports clipPath as "none" whereas WebkitClipPath reports accurately like "ellipse(100% 0% at 50% 0%)", so in this case we must SWITCH to using the prefixed property instead. See https://greensock.com/forums/topic/18310-clippath-doesnt-work-on-ios/
+        // some browsers like Safari actually PREFER the prefixed property and mis-report the unprefixed value like clipPath (BUG). In other words, even though clipPath exists in the style ("clipPath" in target.style) and it's set in the CSS properly (along with -webkit-clip-path), Safari reports clipPath as "none" whereas WebkitClipPath reports accurately like "ellipse(100% 0% at 50% 0%)", so in this case we must SWITCH to using the prefixed property instead. See https://gsap.com/forums/topic/18310-clippath-doesnt-work-on-ios/
         var p = _checkPropPrefix(prop, target, 1), s = p && _getComputedProperty(target, p, 1);
         if (s && s !== start) {
             prop = p;
             start = s;
-        } else if (prop === "borderColor") start = _getComputedProperty(target, "borderTopColor"); // Firefox bug: always reports "borderColor" as "", so we must fall back to borderTopColor. See https://greensock.com/forums/topic/24583-how-to-return-colors-that-i-had-after-reverse/
+        } else if (prop === "borderColor") start = _getComputedProperty(target, "borderTopColor"); // Firefox bug: always reports "borderColor" as "", so we must fall back to borderTopColor. See https://gsap.com/forums/topic/24583-how-to-return-colors-that-i-had-after-reverse/
     }
     var pt = new (0, _gsapCoreJs.PropTween)(this._pt, target.style, prop, 0, 1, (0, _gsapCoreJs._renderComplexString)), index = 0, matchIndex = 0, a, result, startValues, startNum, color, startValue, endValue, endNum, chunk, endUnit, startUnit, endValues;
     pt.b = start;
@@ -4059,9 +4117,10 @@ _convertToUnit = function _convertToUnit(target, property, value, unit) {
     start += ""; // ensure values are strings
     end += "";
     if (end === "auto") {
+        startValue = target.style[prop];
         target.style[prop] = end;
         end = _getComputedProperty(target, prop) || end;
-        target.style[prop] = start;
+        startValue ? target.style[prop] = startValue : _removeProperty(target, prop);
     }
     a = [
         start,
@@ -4225,13 +4284,16 @@ _specialProps = {
     if (!originIsAbsolute) {
         bounds = _getBBox(target);
         xOrigin = bounds.x + (~originSplit[0].indexOf("%") ? xOrigin / 100 * bounds.width : xOrigin);
-        yOrigin = bounds.y + (~(originSplit[1] || originSplit[0]).indexOf("%") ? yOrigin / 100 * bounds.height : yOrigin);
+        yOrigin = bounds.y + (~(originSplit[1] || originSplit[0]).indexOf("%") ? yOrigin / 100 * bounds.height : yOrigin); // if (!("xOrigin" in cache) && (xOrigin || yOrigin)) { // added in 3.12.3, reverted in 3.12.4; requires more exploration
+    // 	xOrigin -= bounds.x;
+    // 	yOrigin -= bounds.y;
+    // }
     } else if (matrix !== _identity2DMatrix && (determinant = a * d - b * c)) {
         //if it's zero (like if scaleX and scaleY are zero), skip it to avoid errors with dividing by zero.
         x = xOrigin * (d / determinant) + yOrigin * (-c / determinant) + (c * ty - d * tx) / determinant;
         y = xOrigin * (-b / determinant) + yOrigin * (a / determinant) - (a * ty - b * tx) / determinant;
         xOrigin = x;
-        yOrigin = y;
+        yOrigin = y; // theory: we only had to do this for smoothing and it assumes that the previous one was not originIsAbsolute.
     }
     if (smooth || smooth !== false && cache.smooth) {
         tx = xOrigin - xOriginOld;
@@ -4384,7 +4446,7 @@ _specialProps = {
     cache.skewX = skewX + deg;
     cache.skewY = skewY + deg;
     cache.transformPerspective = perspective + px;
-    if (cache.zOrigin = parseFloat(origin.split(" ")[2]) || 0) style[_transformOriginProp] = _firstTwoOnly(origin);
+    if (cache.zOrigin = parseFloat(origin.split(" ")[2]) || !uncache && cache.zOrigin || 0) style[_transformOriginProp] = _firstTwoOnly(origin);
     cache.xOffset = cache.yOffset = 0;
     cache.force3D = (0, _gsapCoreJs._config).force3D;
     cache.renderTransform = cache.svg ? _renderSVGTransforms : _supports3D ? _renderCSSTransforms : _renderNon3DTransforms;
@@ -4604,7 +4666,7 @@ var CSSPlugin = {
                     // in case someone hard-codes a complex value as the start, like top: "calc(2vh / 2)". Without this, it'd use the computed value (always in px)
                     startValue = typeof startAt[p] === "function" ? startAt[p].call(tween, index, target, targets) : startAt[p];
                     (0, _gsapCoreJs._isString)(startValue) && ~startValue.indexOf("random(") && (startValue = (0, _gsapCoreJs._replaceRandom)(startValue));
-                    (0, _gsapCoreJs.getUnit)(startValue + "") || (startValue += (0, _gsapCoreJs._config).units[p] || (0, _gsapCoreJs.getUnit)(_get(target, p)) || ""); // for cases when someone passes in a unitless value like {x: 100}; if we try setting translate(100, 0px) it won't work.
+                    (0, _gsapCoreJs.getUnit)(startValue + "") || startValue === "auto" || (startValue += (0, _gsapCoreJs._config).units[p] || (0, _gsapCoreJs.getUnit)(_get(target, p)) || ""); // for cases when someone passes in a unitless value like {x: 100}; if we try setting translate(100, 0px) it won't work.
                     (startValue + "").charAt(1) === "=" && (startValue = _get(target, p)); // can't work with relative values
                 } else startValue = _get(target, p);
                 startNum = parseFloat(startValue);
@@ -4735,6 +4797,6 @@ var CSSPlugin = {
 });
 (0, _gsapCoreJs.gsap).registerPlugin(CSSPlugin);
 
-},{"./gsap-core.js":"05eeC","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["g0Bb1","i30VU"], "i30VU", "parcelRequire6bc9")
+},{"./gsap-core.js":"05eeC","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["34WWp","i30VU"], "i30VU", "parcelRequire6bc9")
 
 //# sourceMappingURL=index.8d9388f3.js.map

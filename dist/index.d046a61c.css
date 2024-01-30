@@ -37,8 +37,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   margin: 0;
   font-family: halyard-micro, -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif;
-  overflow-x: hidden;
-  overflow-y: scroll;
+  overflow: hidden scroll;
 }
 
 .demo-3 {
@@ -54,18 +53,18 @@ body {
 }
 
 .js .loading:before {
+  background: var(--color-bg);
   width: 100%;
   height: 100%;
-  background: var(--color-bg);
   top: 0;
   left: 0;
 }
 
 .js .loading:after {
-  width: 160px;
-  height: 160px;
   opacity: .4;
   background: url("mmm-logo.d4236a3c.png") 0 0 / contain no-repeat;
+  width: 160px;
+  height: 160px;
   margin: -30px 0 0 -30px;
   animation: .7s linear infinite alternate forwards loaderAnim;
   top: 50%;
@@ -106,10 +105,10 @@ a {
 
 .highlight:before {
   content: "";
-  width: 100%;
-  height: 8px;
   z-index: -1;
   background-color: #69c3ff;
+  width: 100%;
+  height: 8px;
   transition: all .3s ease-in-out;
   position: absolute;
   bottom: 3px;
@@ -173,10 +172,10 @@ main {
 
 .hover-line:before, .cda-sponsor-link:before {
   content: "";
-  height: 1px;
-  width: 100%;
   transform-origin: 0%;
   background: currentColor;
+  width: 100%;
+  height: 1px;
   transition: transform .3s;
   position: absolute;
   top: 92%;
@@ -205,9 +204,9 @@ main {
 }
 
 .donaciones-buttons {
-  min-height: 243px;
-  min-width: 180px;
   flex-direction: column;
+  min-width: 180px;
+  min-height: 243px;
   display: flex;
 }
 
@@ -478,9 +477,9 @@ p.footer {
 
 .faded:after {
   content: "";
+  border-collapse: separate;
   width: 100%;
   height: 100%;
-  border-collapse: separate;
   display: block;
   position: absolute;
   top: 0;
@@ -669,9 +668,9 @@ p.footer {
 
 .footer {
   text-align: center;
-  width: 100%;
   background-color: var(--color-bg-sec);
   border-top: 4px solid #000;
+  width: 100%;
   margin-top: 50px;
 }
 
