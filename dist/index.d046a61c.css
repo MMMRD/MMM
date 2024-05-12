@@ -231,8 +231,16 @@ main {
   background: #f56954;
 }
 
-.donaciones-buttons .rainbow:first-child {
+.donaciones-buttons .rainbow.cashapp {
+  background: #00d632;
+}
+
+.donaciones-buttons .rainbow {
   border-bottom: 4px solid #000 !important;
+}
+
+.donaciones-buttons .rainbow:last-child {
+  border-bottom: 0 !important;
 }
 
 .content {
@@ -692,5 +700,4 @@ p.footer {
     transform: rotate(360deg);
   }
 }
-
 /*# sourceMappingURL=index.d046a61c.css.map */
