@@ -381,7 +381,6 @@ p.footer {
   text-transform: var(--font-case);
   cursor: default;
   -webkit-touch-callout: none;
-  -webkit-user-select: none;
   user-select: none;
   margin: 0;
   display: grid;
